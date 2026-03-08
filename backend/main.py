@@ -5,7 +5,7 @@ from typing import List
 
 app = FastAPI()
 
-# Allows the  requests from the our  frontend
+
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["http://localhost:3000"],
@@ -27,19 +27,16 @@ class Pipeline(BaseModel):
 
 
 def is_dag(nodes: List[Node], edges: List[Edge]) -> bool:
-    """
-    Returns True if the graph formed by nodes/edges is a Directed Acyclic Graph.
-    Uses DFS-based cycle detection (white/grey/black colouring).
-    """
+   
     node_ids = {n.id for n in nodes}
 
-    # Build adjacency list
+    
     adj = {n.id: [] for n in nodes}
     for e in edges:
         if e.source in adj:
             adj[e.source].append(e.target)
 
-    # 0 = unvisited, 1 = in current stack, 2 = fully processed
+  
     state = {n: 0 for n in node_ids}
 
     def has_cycle(node: str) -> bool:
